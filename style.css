@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    color: #191919;
+}
+
+.info {
+    margin-block: 60px;
+}
+
+.info h2 {
+    font-family: "Inter", sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.info h5 {
+    font-size: 16px;
+    font-weight: 700;
+
+}
+
+.info p {
+    font-size: 16px;
+    margin-bottom: 1em;
+
+}
+
+.info__container {
+    width: calc(100% - 30px * 2);
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.info__link {
+    color: #FF7010;
+    background: none;
+    border: none;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.info__text {
+    max-height: 310px;
+    overflow: hidden;
+}
+
+.info__text--active {
+    max-height: 1000px;
+}
