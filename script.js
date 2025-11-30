@@ -20,6 +20,36 @@ document.querySelector('.info__link').addEventListener('click', function () {
 })
 
 
+// ждём полной загрузки страницы
+document.addEventListener('DOMContentLoaded', function () {
+    const popupFilter = document.querySelector('.catalog__filter--button');
+
+    if (buttonPopup) {
+        buttonPopup.addEventListener('click', function () {
+            const popupFilter = document.querySelector('.popup-filter');
+            if (popupFilter) {
+                document.body.classList.add('no_scroll')
+                popupFilter.classList.add('popup-filter--show')
+                setTimeout(function () {
+                    popupFilter.classList.add('popup-filter--active')
+                }, 10);
+            }
+        })
+    }
+
+    const buttonPopupClose = document.querySelector('popup-filter__close')
+        if (buttonPopupClose) {
+            buttonPopupClose.addEventListener('click', function () {
+                popupFilter.classList.add('popup-filter--active')
+                setTimeout(function() => {
+                    popupFilter.classList.remove('popup-filter--active')
+                }, 300);
+            });
+})
+
+
+
+
 
 
 //document.querySelector('.info__link').addEventListener('click', function () {
