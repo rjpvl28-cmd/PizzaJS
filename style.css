@@ -162,8 +162,13 @@ body {
     width: 520px;
     height: 100%;
     overflow: auto;
+    transform: translateX(520px);
+    transition: transform .3s;
     /* right: 0; */
     /* position: absolute; */
+}
+.popup-filter--active .popup-filter__body {
+    transform: translateX(0px);
 }
 
 .popup-filter__content {
