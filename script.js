@@ -20,33 +20,34 @@ document.querySelector('.info__link').addEventListener('click', function () {
 })
 
 
-// ждём полной загрузки страницы
+// ждем полной загрузки страницы
 document.addEventListener('DOMContentLoaded', function () {
-    const popupFilter = document.querySelector('.catalog__filter--button');
+    const popupFilter = document.querySelector('.popup-filter');
 
-    if (buttonPopup) {
-        buttonPopup.addEventListener('click', function () {
-            const popupFilter = document.querySelector('.popup-filter');
-            if (popupFilter) {
-                document.body.classList.add('no_scroll')
+    if (popupFilter) {
+        const buttonPopup = document.querySelector('.catalog__filter--button');
+        if (buttonPopup) {
+            buttonPopup.addEventListener('click', function () {
+                document.body.classList.add('no-scroll');
                 popupFilter.classList.add('popup-filter--show')
                 setTimeout(function () {
                     popupFilter.classList.add('popup-filter--active')
                 }, 10);
-            }
-        })
-    }
+            })
+        }
 
-    const buttonPopupClose = document.querySelector('popup-filter__close')
+        const buttonPopupClose = document.querySelector('.popup-filter__close');
         if (buttonPopupClose) {
             buttonPopupClose.addEventListener('click', function () {
-                popupFilter.classList.add('popup-filter--active')
-                setTimeout(function() => {
-                    popupFilter.classList.remove('popup-filter--active')
+                popupFilter.classList.remove('popup-filter--active')
+                setTimeout(function () {
+                    popupFilter.classList.remove('popup-filter--show')
+                    document.body.classList.remove('no-scroll');
                 }, 300);
             });
-})
-
+        }
+    }
+});
 
 
 
