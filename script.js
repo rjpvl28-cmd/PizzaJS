@@ -133,6 +133,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+
+
     const pagination = document.querySelector ('.here');
         if (pagination) {
             let hereHtml = '';
@@ -148,7 +150,52 @@ document.addEventListener('DOMContentLoaded', function () {
  //           pagination.inerHTML = hereHtml;    
         }
         
-
+    let categories = [
+        {
+            icon: "icon-sale",
+            title: 'Акции',
+            isActive: false
+        },
+        {
+            icon: "icon-pizza",
+            title: 'Пицца',
+            isActive: false
+        },
+        {
+            icon: "icon-sushi",
+            title: 'Суши',
+            isActive: false
+        },
+        {
+            icon: "icon-juice",
+            title: 'Напитки',
+            isActive: false
+        },
+        {
+            icon: "icon-snakes",
+            title: 'Закуски',
+            isActive: false
+        },
+    ];
+    let categoriesList = document.querySelector('.categories__list');
+        if (categoriesList) {
+            let categoriesHtml = '';
+            categories.forEach(function (category) {
+                let isActive = '';
+                if (category.isActive == true) {
+                    isActive = 'active'
+                }
+                categoriesHtml = categoriesHtml + `<li>
+                        <a href="#" class="${isActive}">
+                            <svg width="24" height="24">
+                                <use xlink:href="images/icons/sprite.svg#${category.icon}icon-sale" />
+                            </svg>
+                            ${category.title}
+                        </a>
+                    </li>`
+            });
+            categoriesList.innerHTML = categoriesHtml;
+        }
         
 
 
@@ -187,6 +234,27 @@ document.addEventListener('DOMContentLoaded', function () {
 //console.log(m[10])
 //m.push(588)
 //m.length
+
+// let a  = ['images/img1', 'Пицца', 600, 300, true];
+//let pizzas  = [
+//    {
+//        title: '1',
+ //       img: '343',
+ //   },
+ //   {
+//        title: '2',
+ //   },
+//]
+//let pizza = {
+ //   img: 'images/img1',
+ //   title: 'Пицца',
+ //   oldPrice: 600,
+ //   newPrice: 300,
+ //   isHit: true
+//};
+
+// pizza['img1']
+//pizza.title = 
 
 
 
