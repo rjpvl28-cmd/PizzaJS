@@ -121,7 +121,37 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>`;
         }
         groups.innerHTML = groupHtml;
+    }
+
+    // Задача: сгенерировать кнопки от 1 - 10
+    // 1. Ищем на странице элемент .here
+    // 2. Проверяем нашли ли мы этот элемент
+    // 3. Создаем переменную для накопления html-кнопок
+    // 4. Запускаем цикл от 1 до 10
+    // 5. Наращиваем переменную html-кнопок с использованием текущего индекса
+    // 6. После цикла вставляем полученный html в нужное место через outerHTML
+
+
+
+    const pagination = document.querySelector ('.here');
+        if (pagination) {
+            let hereHtml = '';
+            for(let i = 1; i <= 10; i = i + 1) {
+                hereHtml = hereHtml + `<li>
+                <a href="#" class="pagination__button">${i}</a></li>`
+            }
+            pagination.outerHTML = hereHtml;
+            
+  //          for(let i = 1; i >= 3; i = i + 1) {
+  //              hereHtml = hereHtml + `<li><span>${'...'}</span></li>`
+ //           }
+ //           pagination.inerHTML = hereHtml;    
         }
+        
+
+        
+
+
 });
         //list.textContent = "hello world"
         //let a = "<button>hello<"
