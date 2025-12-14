@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - Kudapizza</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__container">
+            <a href="index.html" class="header__logo">
+                <img src="images/logo.svg" alt="">
+            </a>
+            <a href="cart.html" class="header__cart-button">
+                <svg width="24" height="24">
+                    <use xlink:href="images/icons/sprite.svg#icon-cart" />
+                </svg>
+                <span class="cartTotalHtml">0</span> ₽
+            </a>
+        </div>
+    </header>
+    <main>
+        <section class="cart">
+            <div class="container container--small cart__container">
+                <h2 class="cart__title">Ваш заказ</h2>
+                <div class="cart__body">
+                    <div class="cart__items">
+                        <!-- <div class="cart__item">
+                            <div class="cart__item-about">
+                                <img src="images/product-1.jpg" alt="" class="cart__item-img">
+                                <div class="cart__item-info">
+                                    <div class="cart__item-name">Пепперони по-деревенски</div>
+                                    <div class="cart__item-desc">Традиционное тесто, 23 см</div>
+                                </div>
+                            </div>
+                            <div class="cart__item-numbers">
+                                <div class="cart__item-calc">
+                                    <button class="cart__item-minus">-</button>
+                                    <input type="text" value="1" class="cart__item-quantity">
+                                    <button class="cart__item-plus">+</button>
+                                </div>
+                                <div class="cart__item-sum">399 ₽</div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="cart__result">
+                        <div class="cart__promocode">
+                            <input type="text" placeholder="Промокод">
+                            <button>
+                                <svg width="18" height="15">
+                                    <use xlink:href="images/icons/sprite.svg#icon-plane" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="cart__sum">Итого: <span class="cartTotalHtml">0</span> ₽</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="checkout">
+            <div class="container container--small checkout__container">
+                <div class="checkout__group">
+                    <h3 class="checkout__title">О вас</h3>
+                    <div class="checkout__inputs">
+                        <div class="input-field">
+                            <label for="name">Имя*</label>
+                            <input type="text" name="name" id="name" required placeholder="Алексей">
+                        </div>
+                        <div class="input-field">
+                            <label for="phone">Номер телефона*</label>
+                            <input type="text" name="phone" id="phone" required placeholder="+7">
+                        </div>
+                        <div class="input-field">
+                            <label for="email">Почта</label>
+                            <input type="email" name="email" id="email" placeholder="mail@gmail.com">
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__group">
+                    <h3 class="checkout__title">Комментарий</h3>
+                    <div class="checkout__inputs">
+                        <div class="input-field">
+                            <textarea name="comment" placeholder="Есть уточнения?"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <footer class="checkout__footer">
+                    <div class="checkout__total">Итого: <span class="cartTotalHtml">0</span> ₽</div>
+                    <button class="checkout__button">Оформить заказ</button>
+                </footer>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
