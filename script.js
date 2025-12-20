@@ -1,13 +1,13 @@
-let totalCart = 0;
+let hasDiscount = false;
 
 // ждем полной загрузки страницы
 document.addEventListener('DOMContentLoaded', function () {
     
     // раскрытие текста в блоке info
-    const infoLink = document.querySelector('.info__link')
+    const infoLink = document.querySelector('.info__link');
     if (infoLink) {
         infoLink.addEventListener('click', function () {
-            const infoText = document.querySelector('.info__text')
+            const infoText = document.querySelector('.info__text');
             if (infoText) {
                 infoText.classList.toggle('info__text--active');
                 let buttonText = this.textContent;
@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (buttonPopup) {
             buttonPopup.addEventListener('click', function () {
                 document.body.classList.add('no-scroll');
-                popupFilter.classList.add('popup-filter--show')
+                popupFilter.classList.add('popup-filter--show');
                 setTimeout(function () {
-                    popupFilter.classList.add('popup-filter--active')
+                    popupFilter.classList.add('popup-filter--active');
                 }, 10);
             })
         }
@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const buttonPopupClose = document.querySelector('.popup-filter__close');
         if (buttonPopupClose) {
             buttonPopupClose.addEventListener('click', function () {
-                popupFilter.classList.remove('popup-filter--active')
+                popupFilter.classList.remove('popup-filter--active');
                 setTimeout(function () {
-                    popupFilter.classList.remove('popup-filter--show')
+                    popupFilter.classList.remove('popup-filter--show');
                     document.body.classList.remove('no-scroll');
                 }, 300);
             });
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for(let i = 0; i < titles.length; i++) {
             let buttonsHtml = '';
             for(let j = 0; j < buttons[i].length; j++) {
-                buttonsHtml = buttonsHtml + `<button>${buttons[i][j]}</button>`
+                buttonsHtml = buttonsHtml + `<button>${buttons[i][j]}</button>`;
             }
             groupHtml = groupHtml + `<div class="popup-filter__group">
                         <h4>${titles[i]}</h4>
@@ -196,151 +196,244 @@ document.addEventListener('DOMContentLoaded', function () {
                             </svg>
                             ${category.title}
                         </a>
-                    </li>`
+                    </li>`;
         });
         categoriesList.innerHTML = categoriesHtml;
     }
 
-    let cartItems = [];
+    let cartItems = [
+        {
+            id: 1,
+            image: 'images/product-1.jpg',
+            name: 'Пепперони по-деревенски',
+            desc: 'Традиционное тесто, 25 см',
+            price: 399,
+            quantity: 1
+        },
+        {
+            id: 2,
+            image: 'images/product-2.jpg',
+            name: 'Пепперони по-деревенски',
+            desc: 'Традиционное тесто, 25 см',
+            price: 399,
+            quantity: 1
+        },
+        {
+            id: 3,
+            image: 'images/product-3.jpg',
+            name: 'Пепперони по-деревенски',
+            desc: 'Традиционное тесто, 25 см',
+            price: 399,
+            quantity: 1
+        },
+    ];
+    renderCartItems(cartItems);
 
-    fetch("https://example.shaklein.dev/cart/").then(function (responce) {
-        return responce.json();
+    // получение корзины с сервера
+    /*
+    fetch('https://example.shaklein.dev/cart/').then(function (response) {
+        return response.json();
     }).then(function (data) {
         cartItems = data.cartItems;
-        renderCartItems();
+        renderCartItems(cartItems);
     });
+    */
 
-    function renderCartItems() {
-
-        const cartItemsBlock = document.querySelector('.cart__items');
-        if (cartItemsBlock) {
-            let cartItemsHtml = '';
-            cartItems.forEach(function (cartItem, itemIndex) {
-                cartItemsHtml += `<div class="cart__item">
-                                <div class="cart__item-about">
-                                    <img src="${cartItem.image}" alt="" class="cart__item-img">
-                                    <div class="cart__item-info">
-                                        <div class="cart__item-name">${cartItem.name}</div>
-                                        <div class="cart__item-desc">${cartItem.desc}</div>
-                                    </div>
-                                </div>
-                                <div class="cart__item-numbers">
-                                    <div class="cart__item-calc">
-                                        <button class="cart__item-minus" data-index="${itemIndex}">-</button>
-                                        <input type="number" value="${cartItem.quantity}"
-                                            class="cart__item-quantity" data-index="${itemIndex}">
-                                        <button class="cart__item-plus" data-index="${itemIndex}">+</button>
-                                    </div>
-                                    <div class="cart__item-sum">${(cartItem.price * cartItem.quantity).toLocaleString()} ₽</div>
-                                </div>
-                            </div>`;
-                totalCart += cartItem.price * cartItem.quantity;
-            });
-            renderTotalPrice(cartItems);
-            cartItemsBlock.innerHTML = cartItemsHtml;
-
-            const cartInputs = document.querySelectorAll('.cart__item-quantity');
-            if (cartInputs.length) {
-                cartInputs.forEach(function (cartInput) {
-                    cartInput.addEventListener('input', function () {
-                        if (this.value === '')
-                            this.value = 0;
-                        if (this.value > 999)
-                            this.value = 999;
-                        if (this.value < 0)
-                            this.value = 0;
-                        this.value = +this.value;
-                        const cartItemIndex = this.dataset.index;
-                        cartItems[cartItemIndex].quantity = this.value;
-
-                        const cartItem = cartItems[cartItemIndex];
-                        const total = cartItem.price * cartItem.quantity;
-
-                        const container = this.closest('.cart__item-numbers');
-                        const sumHtml = container.querySelector('.cart__item-sum');
-                        if (sumHtml) {
-                            sumHtml.textContent = total.toLocaleString() + ' ₽';
-                        }
-                        renderTotalPrice(cartItems);
-                    }); 
-                });
-            }
-        }
-    }
-
-    // увеличение и уменьшение количества товара
-    const cart = document.querySelector('.cart__items');
-    if (cart) {
-        cart.addEventListener('click', function (event) {
+    // изменение количества товара
+    const cartContainer = document.querySelector('.cart__items');
+    if (cartContainer) {
+        cartContainer.addEventListener('click', function (event) {
+            // увеличение количества товара
             let buttonPlus = event.target.closest('.cart__item-plus');
             if (buttonPlus) {
-                const productIndex = buttonPlus.dataset.index;
-                const cartItem = cartItems[productIndex]; 
-                const container = event.target.closest('.cart__item-numbers');
-                const cartInput = container.querySelector('.cart__item-quantity');
-                if (+cartInput.value < 999) {
-                    cartInput.value = +cartInput.value + 1;
-                    cartItems[productIndex].quantity = cartInput.value;
-                    // отобразить новую итоговую цену
-                    renderTotalPrice(cartItems);
-                }
-                const total = (+cartInput.value * cartItem.price);
-                container.querySelector('.cart__item-sum').textContent = total + ' ₽';
+                const container = event.target.closest('.cart__item');
+                const productId = container.dataset.id;
+                cartItems = increaseProductQuantity(cartItems, productId);
             }
 
+            // уменьшение количества товара
             let buttonMinus = event.target.closest('.cart__item-minus');
             if (buttonMinus) {
-                const productIndex = buttonMinus.dataset.index;
-                const cartItem = cartItems[productIndex]; 
-                const container = event.target.closest('.cart__item-numbers');
-                const cartInput = container.querySelector('.cart__item-quantity');
-                if (+cartInput.value > 0) {
-                    cartInput.value = +cartInput.value - 1;
-                    cartItems[productIndex].quantity = cartInput.value;
-                    // отобразить новую итоговую цену
-                    renderTotalPrice(cartItems);
-                }
-                const total = (+cartInput.value * cartItem.price);
-                container.querySelector('.cart__item-sum').textContent = total + ' ₽';
+                const container = event.target.closest('.cart__item');
+                const productId = container.dataset.id;
+                cartItems = decreaseProductQuantity(cartItems, productId);
+            }
+        });
+
+        cartContainer.addEventListener('change', function (event) {
+            // изменение количества товара через input
+            let cartInput = event.target.closest('.cart__item-quantity');
+            if (cartInput) {
+                const container = cartInput.closest('.cart__item');
+                const productId = container.dataset.id;
+                if (!cartInput.value)
+                    cartInput.value = 0; 
+                cartItems = updateProductQuantity(cartItems, productId, cartInput.value);
             }
         });
     }
-    // отправка формы
-    const checkoutButton = document.querySelector('.chekout__button');
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', function () {
-            fetch("https://example.shaklein.dev/cart/", {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json;charset=utf-8"
-                },
-                body: JSON.stringify({
-                    cartItems: cartItems,
-                    name: 'ppp',
-                    phone: '777',
-                    email: '@gmail',
-                    comment: 'thx',
-                })
-            }).then(function (responce) {
-                return responce.json();
 
-            }).then(function (data) {
-                console.log(data)
-            })
-        })
+    // оформление заказа
+    const chekoutButton = document.querySelector('.checkout__button');
+    if (chekoutButton) {
+        chekoutButton.addEventListener('click', function () {
+            sendOrder(cartItems);
+        });
+    }
+
+    // применение промокода
+    const applyPromocodeButton = document.querySelector('.cart__apply-promocode');
+    if (applyPromocodeButton) {
+        applyPromocodeButton.addEventListener('click', function () {
+            const promocodeInput = document.querySelector('input[name="promocode"]');
+            hasDiscount = false;
+            if (promocodeInput.value === '777') {
+                hasDiscount = true;
+            }
+            renderTotalPrice(cartItems);
+        });
     }
 });
 
-const cartTotalHtml = document.querySelectorAll('.cartTotalHtml');
+// функция отрисовки товаров в корзине
+function renderCartItems(cartItems) {
+    const cartItemsBlock = document.querySelector('.cart__items');
+    if (cartItemsBlock) {
+        let cartItemsHtml = '';
+        cartItems.forEach(function (cartItem) {
+            cartItem.sum = (cartItem.price * cartItem.quantity).toLocaleString();
+            cartItemsHtml += `<div class="cart__item" data-id="${cartItem.id}">
+                            <div class="cart__item-about">
+                                <img src="${cartItem.image}" alt="" class="cart__item-img">
+                                <div class="cart__item-info">
+                                    <div class="cart__item-name">${cartItem.name}</div>
+                                    <div class="cart__item-desc">${cartItem.desc}</div>
+                                </div>
+                            </div>
+                            <div class="cart__item-numbers">
+                                <div class="cart__item-calc">
+                                    <button class="cart__item-minus">-</button>
+                                    <input type="number" value="${cartItem.quantity}"
+                                        class="cart__item-quantity" step="1">
+                                    <button class="cart__item-plus">+</button>
+                                </div>
+                                <div class="cart__item-sum">${cartItem.sum} ₽</div>
+                            </div>
+                        </div>`;
+        });
+        cartItemsBlock.innerHTML = cartItemsHtml;
+        renderTotalPrice(cartItems);
+    }
+}
 
-function renderTotalPrice(items) {
-    totalCart = 0;
-    items.forEach(function (item) {
+// получение индекса товара в массиве по id
+function getProductIndexById(cartItems, id) {
+    const productIndex = cartItems.findIndex(function(cartItem) {
+        return cartItem.id == id;
+    });
+    return productIndex;
+}
+
+// увеличение количества товара
+function increaseProductQuantity(cartItems, id) {
+    const productIndex = getProductIndexById(cartItems, id);
+    const cartItem = cartItems[productIndex]; 
+    cartItems = updateProductQuantity(cartItems, id, cartItem.quantity + 1);
+    return cartItems;
+}
+
+// уменьшение количества товара
+function decreaseProductQuantity(cartItems, id) {
+    const productIndex = getProductIndexById(cartItems, id);
+    const cartItem = cartItems[productIndex]; 
+    cartItems = updateProductQuantity(cartItems, id, cartItem.quantity - 1);
+    return cartItems;
+}
+
+// обновление количества товара
+function updateProductQuantity(cartItems, id, quantity) {
+    const productIndex = getProductIndexById(cartItems, id);
+
+    quantity = parseInt(quantity);
+    if (quantity > 999)
+        quantity = 999;
+
+    if (quantity <= 0) {
+        cartItems = removeProductFromCart(cartItems, id);
+        return cartItems;
+    }
+
+    cartItems[productIndex].quantity = quantity;
+
+    renderCartItem(cartItems, id);
+    renderTotalPrice(cartItems);
+
+    return cartItems;
+}
+
+// удаление товара из корзины
+function removeProductFromCart(cartItems, id) {
+    const productIndex = getProductIndexById(cartItems, id);
+    cartItems.splice(productIndex, 1);
+    renderCartItems(cartItems);
+    return cartItems;
+}
+
+// отрисовка суммы конкретного товара
+function renderCartItem(cartItems, id) {
+    const container = document.querySelector(`.cart__item[data-id="${id}"]`);
+    const productIndex = getProductIndexById(cartItems, id);
+    const cartItem = cartItems[productIndex];
+
+    const productInput = container.querySelector('.cart__item-quantity');
+    productInput.value = cartItem.quantity;
+
+    const sum = (cartItem.quantity * cartItem.price).toLocaleString();
+    container.querySelector('.cart__item-sum').textContent = sum + ' ₽';
+}
+
+// отрисовка общей суммы корзины
+function renderTotalPrice(cartItems) {
+    const cartTotalHtml = document.querySelectorAll('.cartTotalHtml');
+    let totalCart = 0;
+    cartItems.forEach(function (item) {
         totalCart += item.price * item.quantity;
     });
+    if (hasDiscount) {
+        totalCart = totalCart * 0.9;
+    }
     if (cartTotalHtml.length) {
         cartTotalHtml.forEach(function (cartTotalItem) {
-            cartTotalItem.textContent = totalCart.toLocaleString()
+            cartTotalItem.textContent = totalCart.toLocaleString() + ' ₽';
         });
     }
+}
+
+// отправка заказа на сервер
+function sendOrder(cartItems) {
+    const nameInput = document.querySelector('input[name="name"]');
+    const phoneInput = document.querySelector('input[name="phone"]');
+    const emailInput = document.querySelector('input[name="email"]');
+    const commentInput = document.querySelector('textarea[name="comment"]');
+    const promocodeInput = document.querySelector('input[name="promocode"]');
+
+    fetch('https://example.shaklein.dev/cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: nameInput.value,
+            phone: phoneInput.value,
+            email: emailInput.value,
+            comment: commentInput.value,
+            promocode: promocodeInput.value,
+            cartItems: cartItems
+        }),
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        alert('Заказ успешно оформлен!');
+        console.log(data);
+    });
 }

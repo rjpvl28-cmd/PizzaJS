@@ -469,6 +469,7 @@ body {
 .cart__item-quantity {
     width: 100%;
     padding: 8px;
+    padding-left: 24px;
     border: none;
     background-color: #FFEEE2;
     text-align: center;
@@ -487,6 +488,7 @@ body {
 .cart__item-minus,
 .cart__item-plus {
     position: absolute;
+    outline: none;
     height: 100%;
     width: 24px;
     border: none;
